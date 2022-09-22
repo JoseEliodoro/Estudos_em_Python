@@ -39,16 +39,3 @@ lista_animal.remove('gato') #Remove um elemento da lista pelo valor
 print(lista_animal)
 '''
 
-'''
-#Ordena lista de forma crescente
-print('lista = {}' 
-      '\nlista_animal = {}'
-      .format(lista, lista_animal))
-
-lista.sort()
-lista_animal.sort()
-print('lista = {}'
-      '\nlista_animal = {}'
-      .format(lista, lista_animal))
-lista.reverse() #Ordena de forma reversa
-'''
