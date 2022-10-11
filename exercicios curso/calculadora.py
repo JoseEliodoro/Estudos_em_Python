@@ -10,6 +10,7 @@ class Calculadora:
         self.frames()
         self.widgets_frame01()
         self.painel()
+        self.lista = 0
         self.root.mainloop()
     
     #Método para estilizar a janela
@@ -48,14 +49,14 @@ class Calculadora:
             self.buttons19(btn)
             self.buttons.append(btn)
             
-        self.btn_mult = Button(self.frame01, text= '*', font='Arial 9 bold', bd=0.5)
-        self.btn_sum = Button(self.frame01, text= '+', font='Arial 9 bold', bd=0.5)
-        self.btn_sub = Button(self.frame01, text= '-', font='Arial 9 bold', bd=0.5)
-        self.btn_divi = Button(self.frame01, text= '/', font='Arial 9 bold', bd=0.5)
-        self.btn0 = Button(self.frame01, text= '0', font='Arial 9 bold', bd=0.5)
-        self.btn_enter = Button(self.frame01, text= '=', font='Arial 9 bold', bd=0.5)
-        self.btn_ce = Button(self.frame01, text= 'C', font='Arial 9 bold', bd=0.5)
-        self.btn_pont = Button(self.frame01, text='.', font='Arial 9 bold', bd=0.5)
+        self.btn_mult = Button(self.frame01, text= '*', font='Arial 9 bold', bd=0.5, cursor='hand2')
+        self.btn_sum = Button(self.frame01, text= '+', font='Arial 9 bold', bd=0.5, cursor='hand2')
+        self.btn_sub = Button(self.frame01, text= '-', font='Arial 9 bold', bd=0.5, cursor='hand2')
+        self.btn_divi = Button(self.frame01, text= '/', font='Arial 9 bold', bd=0.5, cursor='hand2')
+        self.btn0 = Button(self.frame01, text= '0', font='Arial 9 bold', bd=0.5, cursor='hand2')
+        self.btn_enter = Button(self.frame01, text= '=', font='Arial 9 bold', bd=0.5, cursor='hand2')
+        self.btn_ce = Button(self.frame01, text= 'C', font='Arial 9 bold', bd=0.5, cursor='hand2')
+        self.btn_pont = Button(self.frame01, text='.', font='Arial 9 bold', bd=0.5, cursor='hand2')
             
     
         self.btn_ce.grid(column= 1, row=0, pady= 1,  padx= 1)
@@ -108,8 +109,9 @@ class Calculadora:
             var = a
         elif(a in numbers):
             var += a  
-        else:
-            print(a)
+        elif(a == '+'):
+            self.lista += float(var)
+            var = self.lista
                 
         self.text.set(var)
         
@@ -117,6 +119,7 @@ class Calculadora:
     def buttons19(self, button):
         button['width'] = 11
         button['height'] = 5
+        button['cursor'] = 'hand2'
         button['command'] = partial(self.function_buttons, button['text'])
         
 Calculadora()
