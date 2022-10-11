@@ -14,19 +14,19 @@ class Calculadora:
     
     #Método para estilizar a janela
     def window(self):
-        self.root.geometry('400x550+0+120')
+        self.root.geometry('360x550+0+120')
         self.root.resizable(False, False)
         self.root.title('Calculadora 0.1')
     
     #Método para criação dos frames
     def frames(self):
         #No frame01 está condido os botões
-        self.frame01 = Frame(self.root, width=400, height=450)
-        self.frame01.grid(row=1)
+        self.frame01 = Frame(self.root)
+        self.frame01.place(relx=0.018, rely=0.19, relwidth=1)
         
         #No frame01 está condido os paineis de informação
         self.frame02 = Frame(self.root, bg='blue', width=400, height=100)
-        self.frame02.grid(row=0)
+        self.frame02.place(relx=0.018, relwidth=1)
         
     #Método para criar os widgets de botão
     def widgets_frame01(self):
@@ -72,6 +72,9 @@ class Calculadora:
         self.btn_sum.grid(column= 4, row=1, rowspan=2, pady= 1,  padx= 1)
         self.btn_enter.grid(column= 4, row=3, rowspan=2, pady= 1,  padx= 1)
         
+        self.btn_sum['command'] = partial(self.function_buttons, self.btn_sum['text'])
+        self.btn_enter['command'] = partial(self.function_buttons, self.btn_enter['text'])
+        
         self.btn_enter['width'] = 11
         self.btn_enter['height'] = 11
         self.btn_sum['width'] = 11
@@ -84,15 +87,31 @@ class Calculadora:
         
         self.btn0['width'] = 23
         self.btn0['height'] = 5
+        self.btn0['command'] = partial(self.function_buttons, self.btn0['text'])
     
     #Método para mostra o painel
     def painel(self):
-        result = Label(self.frame02, text='0', font='Arial 12 bold', width= 40, height=5)
-        result.grid()
+        self.text = StringVar()
+        self.text.set('0')
+        self.result = Entry(self.frame02, text= self.text, font='Arial 12 bold')
+        self.result['state'] ='disable'
+        self.result.place(relx= 0.018, rely= 0.6, relwidth=0.95, relheight=0.3)
+        
         
     #Funçõe dos buttons
     def function_buttons(self, a):
-        print(a)
+        #Cria lista de números em string
+        numbers = [str(x) for x  in range(0, 10)]
+        var = self.result.get()
+        if(self.result.get() == '0' and a in numbers): 
+        #Caso o primeiro digito seja 0 ele vai adicionar diretamento o próximo número
+            var = a
+        elif(a in numbers):
+            var += a  
+        else:
+            print(a)
+                
+        self.text.set(var)
         
     #Método para add estilo nos botões
     def buttons19(self, button):
