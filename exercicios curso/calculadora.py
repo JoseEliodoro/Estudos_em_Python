@@ -11,6 +11,7 @@ class Calculadora:
         self.widgets_frame01()
         self.painel()
         self.lista = 0
+        self.last_operation = ''
         self.root.mainloop()
     
     #Método para estilizar a janela
@@ -108,10 +109,92 @@ class Calculadora:
         #Caso o primeiro digito seja 0 ele vai adicionar diretamento o próximo número
             var = a
         elif(a in numbers):
+            if(var == 'infinity'):
+                var = 0
+                self.text.set(0)
             var += a  
-        elif(a == '+'):
-            self.lista += float(var)
-            var = self.lista
+        else:
+            
+            if(a == '+'):
+                self.lista += float(var)
+                var = 0
+                self.last_operation = a
+            elif(a == '-'):
+                
+                self.lista = (float(var) - self.lista)
+                var = 0
+                self.last_operation = a
+            elif(a == '*'):
+                if(self.lista == 0):
+                    self.lista = 1
+                self.lista *= float(var)
+                var = 0
+                self.last_operation = a
+            elif(a == '/'):
+                if(self.lista == 0):
+                    var = 'infinity'
+                else:
+                    self.lista /= float(var)
+                    var = 0
+                    self.last_operation = a
+            elif(a == '='):
+                
+                print('var:',var)
+                print('lista:',self.lista)
+                print('operatio:',self.last_operation)
+                if(self.last_operation == '+'):
+                    
+                    operation = float(var) + float(self.lista)
+                    
+                    test = int("%.0f"%operation)
+                    
+                    if(operation == test):
+                        
+                        var = test
+                    else:  
+                        var = operation
+                    
+                elif(self.last_operation == '-'):
+                    
+                    operation = float(self.lista) - float(var)
+                        
+                    test = int("%.0f"%operation)
+                        
+                    if(operation == test):
+                        
+                        var = test
+                    else:  
+                        var = operation
+                        
+                elif(self.last_operation == '*'):
+                    
+                    operation = float(var) * float(self.lista)
+                    
+                    test = int("%.0f"%operation)
+                    
+                    if(operation == test):
+                        
+                        var = test
+                    else:  
+                        var = operation
+                        
+                elif(self.last_operation == '/'):
+                    
+                    operation = float(var) / float(self.lista)
+                    
+                    test = int("%.0f"%operation)
+                    
+                    if(operation == test):
+                        
+                        var = test
+                    else:  
+                        var = operation
+                self.lista  = 0
+                print('var:',var)
+                print('lista:',self.lista)
+                print('operatio:',self.last_operation)
+                
+                
                 
         self.text.set(var)
         
