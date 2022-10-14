@@ -1,7 +1,7 @@
 from tkinter import *
 from turtle import st, width
 from functools import partial
-
+import os
 class Calculadora:
     
     def __init__(self):
@@ -10,7 +10,9 @@ class Calculadora:
         self.frames()
         self.widgets_frame01()
         self.painel()
-        self.lista = 0
+        self.lista = [0, 0]
+        self.last_operation = ''
+        self.equal = False
         self.root.mainloop()
     
     #Método para estilizar a janela
@@ -94,27 +96,81 @@ class Calculadora:
     def painel(self):
         self.text = StringVar()
         self.text.set('0')
-        self.result = Entry(self.frame02, text= self.text, font='Arial 12 bold')
+        self.result = Entry(self.frame02, text= self.text, font='Arial 12 bold', justify=RIGHT)
         self.result['state'] ='disable'
         self.result.place(relx= 0.018, rely= 0.6, relwidth=0.95, relheight=0.3)
-        
-        
+           
     #Funçõe dos buttons
     def function_buttons(self, a):
         #Cria lista de números em string
         numbers = [str(x) for x  in range(0, 10)]
         var = self.result.get()
-        if(self.result.get() == '0' and a in numbers): 
+        if(self.equal and a in numbers): #bloco para zerar a mémoria caso eu tente fazer um igual e um numero
+            
+            self.lista = [0, 0]
+            self.text.set(0)
+            self.equal = False
+            
+        if((self.lista[1] == 0) and (a in numbers)): 
         #Caso o primeiro digito seja 0 ele vai adicionar diretamento o próximo número
             var = a
-        elif(a in numbers):
+            self.lista[1] = float(var)
+            
+        elif((a in numbers or self.lista[1] == '-')and not(a == '-')):
             var += a  
-        elif(a == '+'):
-            self.lista += float(var)
-            var = self.lista
+            self.lista[1] = float(var)
+            
+        elif(a == '-' and self.lista[1] == 0):
+            var = a
+            self.lista[1] = var
+        elif(a in ['+', '-', '*', '/']):
+            
+            k = self.lista[1]
+            self.lista[1] = 0
+            self.last_operation = a
+            if(a == '+'):
+                if(not(self.equal)):
+                    self.lista[0] += k
+            elif(a == '-'):
+                if(not(self.equal)):
+                    self.lista[0] = k + self.lista[0]
+                self.lista[1] = '-'
+                var = '-'
+            elif(a == '*'):
+                if(k == 0):
+                    k = 1
+                elif(self.lista[0] == 0):
+                    self.lista[0] = 1
+                if(not(self.equal)):
+                    self.lista[0] = k * self.lista[0]
+            elif(a == '/'):
+                if(not(self.equal)):
+                    if(self.lista[0] == 0):
+                        self.lista[0] = k    
+                    else:
+                        self.lista[0] = self.lista[0] / k
+            self.equal = False        
+            
+
+        elif(a == '='):
+            self.equal = True
+            if(self.last_operation == '+'):
+                var = self.lista[0] + self.lista[1]
+                self.lista[0] = var
+            elif(self.last_operation == '-'):
+                var = self.lista[0] + self.lista[1]
+                self.lista[0] = var
+            elif(self.last_operation == '*'):
+                var = self.lista[0] * self.lista[1]
+                self.lista[0] = var
+            elif(self.last_operation == '/'):
+                var = self.lista[0] / self.lista[1]
+                self.lista[0] = var
                 
+        os.system('cls')
+        print('self.lista:', self.lista,'\nself.last_operation:',self.last_operation,'\nvar:',var,'\nequal:',self.equal)
         self.text.set(var)
-        
+    
     #Método para add estilo nos botões
     def buttons19(self, button):
         button['width'] = 11
