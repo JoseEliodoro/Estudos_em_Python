@@ -1,0 +1,4 @@
+Em Python podemos criar lista de duas formas, usando o cochetes ou a classe list()
+Em Python podemos criar interfase gráfica através da biblioteca nativa tkinter
+Em Python podemos fazer POO através da criação de classe
+Em Python podemos importar modulos e bibliotecas através do comando import
