@@ -2,8 +2,8 @@
 def make_pizza(*topping): #Esse asterisco retorna uma tupla com os argumentos que foram passados
     print(topping)
     
-""" make_pizza('pepperoni')
-make_pizza('mushrooms', 'green peppers', 'extra cheese') """
+make_pizza('pepperoni')
+make_pizza('mushrooms', 'green peppers', 'extra cheese')
 
 
 def build_profile(first, last, **user_info):
